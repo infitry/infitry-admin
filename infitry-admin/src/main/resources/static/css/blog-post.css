@@ -1,0 +1,21 @@
+/*!
+ * Start Bootstrap - Blog Post (https://startbootstrap.com/template-overviews/blog-post)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-post/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+/* 좌측 고정메뉴 */
+.aside {
+	position: fixed;
+	-ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 15%;
+}
+@media (max-width: 1200px) {
+	.aside {
+		display: none;
+	}
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:fragment="headFragment">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/blog-post.css">
+    <!-- 컨텐츠페이지의 CSS 영역이 들어감 -->
+    <th:block layout:fragment="css"></th:block>
+    <script type="text/javascript" src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/vue-2.5.16.js"></script>
+    <th:block layout:fragment="script"></th:block>
+</head>
+
+</html>

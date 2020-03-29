@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head th:replace="layouts/fragments/head :: headFragment"></head>
+	<header th:replace="layouts/fragments/header :: headerFragment"></header>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8" layout:fragment="content"></div>
+				<!-- Sidebar Widgets Column -->
+				<div class="col-md-4">
+	
+					<!-- Search Widget -->
+					<div class="card my-4">
+						<h5 class="card-header">Search</h5>
+						<div class="card-body">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Search for..."> <span
+									class="input-group-btn">
+									<button class="btn btn-secondary" type="button">Go!</button>
+								</span>
+							</div>
+						</div>
+					</div>
+	
+					<!-- Categories Widget -->
+					<div class="card my-4">
+						<h5 class="card-header">Categories</h5>
+						<div class="card-body">
+							<div class="row">
+								<ul class="list-unstyled mb-0 pl-1">
+									<li><a href="#">spring boot</a></li>
+									<li><a href="#">JPA</a></li>
+									<li><a href="#">thymeleaf</a></li>
+									<li><a href="#">ubuntu</a></li>
+									<li><a href="#">docker</a></li>
+									<li><a href="#">vue.js</a></li>
+									<li><a href="#">github</a></li>
+									<li><a href="#">dockerhub</a></li>
+									<li><a href="#">Vue.js</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+	
+					<!-- Side Widget -->
+					<div class="card my-4">
+						<h5 class="card-header">Side Widget</h5>
+						<div class="card-body">You can put anything you want inside
+							of these side widgets. They are easy to use, and feature the new
+							Bootstrap 4 card containers!</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<footer th:replace="layouts/fragments/footer :: footerFragment"></footer>
+		<th:block layout:fragment="bodyScript"></th:block>
+	</body>
+</html>

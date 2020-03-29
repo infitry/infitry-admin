@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default-layout">
+	<th:block layout:fragment="css">
+	</th:block>
+	<th:block layout:fragment="script">
+	</th:block>
+	<div layout:fragment="content">
+		<div class="card mb-4 my-4">
+			<div class="card-body">
+				<h2 class="card-title">Post Title</h2>
+				<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+					adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis
+					soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+					voluptatibus possimus, veniam magni quis!</p>
+				<a href="#" class="btn btn-primary">Read More &rarr;</a>
+			</div>
+			<div class="card-footer text-muted">
+				Posted on January 1, 2017 by <a href="#">Start Bootstrap</a>
+			</div>
+		</div>
+	
+		<div class="card mb-4">
+			<div class="card-body">
+				<h2 class="card-title">Post Title</h2>
+				<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+					adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis
+					soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+					voluptatibus possimus, veniam magni quis!</p>
+				<a href="#" class="btn btn-primary">Read More &rarr;</a>
+			</div>
+			<div class="card-footer text-muted">
+				Posted on January 1, 2017 by <a href="#">Start Bootstrap</a>
+			</div>
+		</div>
+		
+		<div class="card mb-4">
+			<div class="card-body">
+				<h2 class="card-title">Post Title</h2>
+				<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+					adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis
+					soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+					voluptatibus possimus, veniam magni quis!</p>
+				<a href="#" class="btn btn-primary">Read More &rarr;</a>
+			</div>
+			<div class="card-footer text-muted">
+				Posted on January 1, 2017 by <a href="#">Start Bootstrap</a>
+			</div>
+		</div>
+	
+		<!-- Pagination -->
+		<ul class="pagination justify-content-center mb-4">
+			<li class="page-item"><a class="page-link" href="#">&larr;Older</a></li>
+			<li class="page-item disabled"><a class="page-link" href="#">Newer&rarr;</a></li>
+		</ul>
+	</div>
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			
+		</script>
+	</th:block>
+</html>
