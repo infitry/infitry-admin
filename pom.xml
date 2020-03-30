@@ -11,8 +11,8 @@
 	<groupId>com.infitry</groupId>
 	<artifactId>infitry-admin</artifactId>
 	<version>0.0.1</version>
-	<name>infitry</name>
-	<description>infitry first project Spring boot, CI/CD</description>
+	<name>infitry-admin</name>
+	<description>infitry-admin first project Spring boot, CI/CD</description>
 
 	<properties>
 		<java.version>1.8</java.version>
