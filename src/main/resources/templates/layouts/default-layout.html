@@ -135,7 +135,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="/admin/login">Logout</a>
+						<a class="btn btn-primary" href="javascript:;" onclick="logout();">Logout</a>
 					</div>
 				</div>
 			</div>
@@ -150,5 +150,10 @@
 		<script type="text/javascript" src="/js/demo/chart-area-demo.js"></script>
 		<script type="text/javascript" src="/js/demo/chart-pie-demo.js"></script>
 		<th:block layout:fragment="bodyScript"></th:block>
+		<script type="text/javascript">
+			function logout() {
+				location.href="/logout?id=admin"
+			}
+		</script>
 	</body>
 </html>
