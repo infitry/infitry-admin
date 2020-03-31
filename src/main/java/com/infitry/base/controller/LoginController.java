@@ -3,7 +3,6 @@ package com.infitry.base.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,7 +47,6 @@ public class LoginController {
 	@ResponseBody
 	public TransResult loginProc(User user) {
 		TransResult result = new TransResult();
-		//TODO logout 처리 
 		try {
 			logger.info("login user id : " + user.getId());
 			result = userClient.postForObject(userUrl + "/login", user, TransResult.class);
@@ -68,7 +66,6 @@ public class LoginController {
 	@ResponseBody
 	public TransResult logout(User user) {
 		TransResult result = new TransResult();
-		//TODO logout 처리 
 		try {
 			logger.info("logout user id : " + user.getId());
 			result = userClient.postForObject(userUrl + "/logout", user, TransResult.class);
