@@ -41,7 +41,6 @@ public class BlogController {
 	@RequestMapping(value = "/post/list", method = RequestMethod.GET)
 	public String blogPostListPage(Model model) {
 		try {
-			logger.info(blogUrl);
 			BlogPost[] blogPostList = blogClient.getForObject(blogUrl + "/blog/post/list-all", BlogPost[].class);
 			model.addAttribute("blogPostList", Arrays.asList(blogPostList));
 		} catch (Exception e) {
