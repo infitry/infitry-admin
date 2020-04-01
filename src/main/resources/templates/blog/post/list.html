@@ -24,7 +24,7 @@
 								<tr>
 									<th>제목</th>
 									<th>내용</th>
-									<th>카테고리</th>
+<!-- 									<th>카테고리</th> -->
 									<th>작성자</th>
 									<th>작성일</th>
 								</tr>
@@ -33,19 +33,19 @@
 								<tr>
 									<th>제목</th>
 									<th>내용</th>
-									<th>카테고리</th>
+<!-- 									<th>카테고리</th> -->
 									<th>작성자</th>
 									<th>작성일</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<!-- 해당 부분 FOR문 돌려서 목록가져올 것 -->
-								<tr>
-									<td>Spring Boot Docker로 배포하자!</td>
-									<td>내용 줄임ㄹㅇㄴㅁㄹㅇㄴㅁㄹㅇㄴㅁㄹㄴㅁㄹㅇㄴㅁㄹㄴㅇ.....</td>
-									<td>카테고리</td>
-									<td>작성자</td>
-									<td>작성일</td>
+								<tr th:each="blogPost : ${blogPostList}">
+									<td th:text="${blogPost.subject}">Spring Boot Docker로 배포하자!</td>
+									<td th:text="${blogPost.contents}">내용 줄임ㄹㅇㄴㅁㄹㅇㄴㅁㄹㅇㄴㅁㄹㄴㅁㄹㅇㄴㅁㄹㄴㅇ.....</td>
+<!-- 									<td th:text="${blogPost.category.categoryName}">카테고리</td> -->
+									<td th:text="${blogPost.regUser}">작성자</td>
+									<td th:text="${blogPost.regDate}">작성일</td>
 								</tr>
 							</tbody>
 						</table>

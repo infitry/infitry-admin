@@ -1,14 +1,18 @@
 package com.infitry.base.controller;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.infitry.base.entity.BlogPost;
 import com.infitry.base.entity.User;
 import com.infitry.base.result.TransResult;
 
@@ -35,7 +39,15 @@ public class BlogController {
 	 * @description : 블로그 포스트 목록 페이지 이동
 	 */
 	@RequestMapping(value = "/post/list", method = RequestMethod.GET)
-	public String blogPostListPage(User user) {
+	public String blogPostListPage(Model model) {
+		try {
+			logger.info(blogUrl);
+			BlogPost[] blogPostList = blogClient.getForObject(blogUrl + "/blog/post/list-all", BlogPost[].class);
+			model.addAttribute("blogPostList", Arrays.asList(blogPostList));
+		} catch (Exception e) {
+			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
+		}
+		
 		return "blog/post/list";
 	}
 	
