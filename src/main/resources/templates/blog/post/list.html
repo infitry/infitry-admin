@@ -12,7 +12,6 @@
 			<p class="mb-4">
 				까먹지 않게 전부 기록하자
 			</p>
-			
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">포스트 목록</h6>
@@ -24,7 +23,7 @@
 								<tr>
 									<th>제목</th>
 									<th>내용</th>
-<!-- 									<th>카테고리</th> -->
+									<th>카테고리</th>
 									<th>작성자</th>
 									<th>작성일</th>
 								</tr>
@@ -33,19 +32,18 @@
 								<tr>
 									<th>제목</th>
 									<th>내용</th>
-<!-- 									<th>카테고리</th> -->
+									<th>카테고리</th>
 									<th>작성자</th>
 									<th>작성일</th>
 								</tr>
 							</tfoot>
 							<tbody>
-								<!-- 해당 부분 FOR문 돌려서 목록가져올 것 -->
 								<tr th:each="blogPost : ${blogPostList}">
-									<td th:text="${blogPost.subject}">Spring Boot Docker로 배포하자!</td>
-									<td th:text="${blogPost.contents}">내용 줄임ㄹㅇㄴㅁㄹㅇㄴㅁㄹㅇㄴㅁㄹㄴㅁㄹㅇㄴㅁㄹㄴㅇ.....</td>
-<!-- 									<td th:text="${blogPost.category.categoryName}">카테고리</td> -->
-									<td th:text="${blogPost.regUser}">작성자</td>
-									<td th:text="${blogPost.regDate}">작성일</td>
+									<td th:text="${blogPost.subject}"></td>
+									<td th:text="${blogPost.contents}"></td>
+									<td th:text="${blogPost.postCategory?.name}"></td>
+									<td th:text="${blogPost.regUser}"></td>
+									<td th:text="${#dates.format(blogPost.regDate, 'yyyy. MM. dd')}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -65,9 +63,12 @@
 	<th:block layout:fragment="bodyScript">
 	 	<script src="/js/vendor/datatables/jquery.dataTables.min.js"></script>
   		<script src="/js/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  		<script src="/js/vendor/datatables/datatables-demo.js"></script>
 		<script type="text/javascript">
-			
+			$(function() {
+				  $('#dataTable').DataTable({
+					'order': [ [4, 'desc'] ]  
+				  });
+			});
 		</script>
 	</th:block>
 </html>

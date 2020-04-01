@@ -12,10 +12,10 @@ import lombok.Data;
  */
 @Data
 public class BlogPost {
-	
-	long blogPostSeq;
-	String subject;
-	String contents;
-	String regUser;
-	Date regDate;
+	private long blogPostSeq;
+	private PostCategory postCategory;
+	private String subject;
+	private String contents;
+	private String regUser;
+	private Date regDate;
 }

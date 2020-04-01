@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.infitry.base.entity.BlogPost;
-import com.infitry.base.entity.User;
+import com.infitry.base.entity.PostCategory;
 import com.infitry.base.result.TransResult;
 
 /**
@@ -53,25 +53,37 @@ public class BlogController {
 	/**
 	 * @since 2020. 3. 31.
 	 * @author leesw
-	 * @description : 블로그 포스트 목록 페이지 이동
+	 * @description : 블로그 포스트 생성 페이지 이동
 	 */
 	@RequestMapping(value = "/post/create", method = RequestMethod.GET)
-	public String blogPostCreatePage(User user) {
+	public String blogPostCreatePage(Model model) {
+		try {
+			PostCategory[] postCategoryList = blogClient.getForObject(blogUrl + "/blog/post/categories", PostCategory[].class);
+			model.addAttribute("postCategoryList", Arrays.asList(postCategoryList));
+		} catch (Exception e) {
+			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
+		}
+		
 		return "blog/post/create";
 	}
 	
 	/**
 	 * @since 2020. 3. 31.
 	 * @author leesw
-	 * @description : 블로그 포스트 목록 페이지 이동
+	 * @description : 블로그 포스트 저장처리
 	 */
 	@RequestMapping(value = "/post/create/process", method = RequestMethod.POST)
 	@ResponseBody
-	public TransResult blogPostCreateProc(User user) {
+	public TransResult blogPostCreateProc(BlogPost blogPost) {
 		TransResult result = new TransResult();
 		
-		//TODO 글 저장 처리
-		
+		try {
+			result = blogClient.postForObject(blogUrl + "/blog/post/create", blogPost, TransResult.class);
+		} catch (Exception e) {
+			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
+			result.setSuccess(false);
+			result.setErrorMessage("API 서버가 응답하지 않습니다.");
+		}
 		return result;
 	}
 }

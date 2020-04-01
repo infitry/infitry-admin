@@ -10,6 +10,6 @@ import lombok.Data;
  */
 @Data
 public class TransResult {
-	boolean isSuccess;
-	String errorMessage;
+	private boolean isSuccess;
+	private String errorMessage;
 }
