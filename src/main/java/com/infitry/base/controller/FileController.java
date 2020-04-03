@@ -38,6 +38,9 @@ public class FileController {
 	@Value("${infitry.file.upload}")
 	String uploadPath;
 	
+	@Value("${infitry.domain}")
+	String serverName;
+	
 	/**
 	 * @since 2020. 4. 03.
 	 * @author leesw
@@ -67,7 +70,7 @@ public class FileController {
 	        callback = CKEditorFuncNum;
 	        logger.info("callbackFn name : " + callback);
 	        printWriter = response.getWriter();
-	        fileUrl = uploadPath + fileName;
+	        fileUrl = serverName + uploadPath + fileName;
 	        logger.info("fileUrl : " + fileUrl);
 	        printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + fileUrl
 	                + "','이미지가 업로드되었습니다.')" + "</script>");
