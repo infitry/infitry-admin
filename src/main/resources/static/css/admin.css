@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.ellipsis {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 400px;
+}

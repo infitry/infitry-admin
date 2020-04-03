@@ -54,23 +54,31 @@
 	<th:block layout:fragment="bodyScript">
 		<script type="text/javascript">
 			$(function() {
+				pageInit();
 				
 			});
 			
+			function pageInit() {
+				CKEDITOR.replace("contents",{});
+			}
+			
 			function createBlogPost() {
 				var $subject = $('#subject');	//제목 값
-				var $contents = $('#contents'); //내용 값
+				var $contents = $('#contents'); //내용
+				var $ckeContents = $('#cke_contents'); // ckeditor 내용
 				
 				if (!$subject.val()) {
 					alert('제목을 입력해 주세요.');
 					$subject.focus();
 					return false;
 				}
-				if (!$contents.val()) {
+				if (CKEDITOR.instances.contents.getData().length < 1) {
 					alert('내용을 입력해 주세요.');
 					$contents.focus();
 					return false;
 				}
+				
+				$contents.html(CKEDITOR.instances.contents.getData());
 				
 				$.post('/blog/post/create/process', $('#blogPostForm').serialize(), function(data) {
 					if (!data.success) {
