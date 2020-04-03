@@ -59,7 +59,9 @@
 			});
 			
 			function pageInit() {
-				CKEDITOR.replace("contents",{});
+				CKEDITOR.replace("contents",{
+					 filebrowserUploadUrl: "/file/upload"
+				});
 			}
 			
 			function createBlogPost() {
