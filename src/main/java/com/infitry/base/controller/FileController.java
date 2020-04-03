@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -55,7 +56,9 @@ public class FileController {
         response.setContentType("text/html; charset=utf-8");
  
         // 업로드한 파일 이름
-        String fileName = upload.getOriginalFilename();
+        UUID uuid = UUID.randomUUID();
+        String fileName = upload.getOriginalFilename() + "_" + uuid.toString();
+        
         PrintWriter printWriter = null;
         OutputStream out = null;
         String callback = "";
