@@ -24,13 +24,13 @@
 							<dl>
 								<dt>카테고리</dt>
 								<dd>
-									<select class="blog-category mt-2" id="blogPostCategorySeq" name="postCategory.blogPostCategorySeq">
+									<select id="blogPostCategorySeq" name="postCategory.blogPostCategorySeq">
 										<option th:each="category : ${postCategoryList}" th:value="${category.blogPostCategorySeq}" th:text="${category.name}"></option>
 									</select>
 								</dd>
 								<dt>제목</dt>
 								<dd>
-									<input type="text" class="form-control mt-2" id="subject" name="subject" />
+									<input type="text" id="subject" name="subject" />
 								</dd>
 								<dt>내용</dt>
 								<dd>

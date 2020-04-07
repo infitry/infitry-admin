@@ -1,5 +1,7 @@
 package com.infitry.base.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,7 @@ public class LoginController {
 	 * @description : 로그인 페이지 이동
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(User user) {
+	public String loginPage(User user, HttpSession session) {
 		return "user/login";
 	}
 	
@@ -45,15 +47,22 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/login/process", method = RequestMethod.POST)
 	@ResponseBody
-	public TransResult loginProc(User user) {
+	public TransResult loginProc(User user, HttpSession session) {
 		TransResult result = new TransResult();
 		try {
-			logger.info("login user id : " + user.getId());
+			logger.info("login proc user id : " + user.getId());
+			logger.info("admin session ID : " + session.getId());
+			
 			result = userClient.postForObject(userUrl + "/login", user, TransResult.class);
+			
+			/* 로그인 성공 시 현재 웹 WAS의 세션에 로그인 ID저장 */
+			//TODO api에서도 redis로 세션공유되도록 설정해야함.
+			if (result.isSuccess()) {
+				session.setAttribute("loginId", user.getId());
+			}
 		} catch (Exception e) {
 			logger.error("USER SERVICE NOT AVAILABLE...!!!");
 		}
-		logger.info(result.toString());
 		return result;
 	}
 	
@@ -62,13 +71,18 @@ public class LoginController {
 	 * @author leesw
 	 * @description : 로그아웃 처리
 	 */
-	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public TransResult logout(User user) {
+	public TransResult logout(User user, HttpSession session) {
 		TransResult result = new TransResult();
 		try {
 			logger.info("logout user id : " + user.getId());
 			result = userClient.postForObject(userUrl + "/logout", user, TransResult.class);
+			
+			if (result.isSuccess()) {
+				session.removeAttribute("loginId");
+			}
+			
 		} catch (Exception e) {
 			logger.error("USER SERVICE NOT AVAILABLE...!!!");
 		}

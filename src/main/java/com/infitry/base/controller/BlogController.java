@@ -2,6 +2,8 @@ package com.infitry.base.controller;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,9 +76,9 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/post/create/process", method = RequestMethod.POST)
 	@ResponseBody
-	public TransResult blogPostCreateProc(BlogPost blogPost) {
+	public TransResult blogPostCreateProc(BlogPost blogPost, HttpSession session) {
 		TransResult result = new TransResult();
-		
+		blogPost.setRegUser((String) session.getAttribute("loginId"));
 		try {
 			result = blogClient.postForObject(blogUrl + "/blog/post/create", blogPost, TransResult.class);
 		} catch (Exception e) {
@@ -85,5 +87,22 @@ public class BlogController {
 			result.setErrorMessage("API 서버가 응답하지 않습니다.");
 		}
 		return result;
+	}
+	
+	/**
+	 * @since 2020. 3. 31.
+	 * @author leesw
+	 * @description : 블로그 포스트 목록 페이지 이동
+	 */
+	@RequestMapping(value = "/category/list", method = RequestMethod.GET)
+	public String blogCategoryListPage(Model model) {
+		try {
+			PostCategory[] categoryList = blogClient.getForObject(blogUrl + "/blog/category/list-all", PostCategory[].class);
+			model.addAttribute("categoryList", Arrays.asList(categoryList));
+		} catch (Exception e) {
+			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
+		}
+		
+		return "blog/category/list";
 	}
 }

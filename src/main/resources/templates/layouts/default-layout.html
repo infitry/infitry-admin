@@ -40,7 +40,7 @@
 						<div class="bg-white py-2 collapse-inner rounded">
 							<h6 class="collapse-header">블로그</h6>
 							<a class="collapse-item" href="/blog/post/list">블로그 관리</a> 
-							<a class="collapse-item" href="/blog/notice/list">공지사항 관리</a>
+							<a class="collapse-item" href="/blog/category/list">카테고리 관리</a>
 						</div>
 					</div>
 				</li>
@@ -271,12 +271,9 @@
 			
 						<!-- Nav Item - User Information -->
 						<li class="nav-item dropdown no-arrow">
-							<a class="nav-link dropdown-toggle" href="#" id="userDropdown"
-								role="button" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> <span
-									class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie
-										Luna</span> <img class="img-profile rounded-circle"
-									src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false"> 
+								<span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${session.loginId}"></span>
 							</a> <!-- Dropdown - User Information -->
 							<div
 								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -325,16 +322,27 @@
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="javascript:;" onclick="logout();">Logout</a>
+						<a class="btn btn-primary" href="javascript:;" th:attr="onclick=|logout('${session.loginId}')|">Logout</a>
 					</div>
+					
 				</div>
 			</div>
 		</div>
 
 		<th:block layout:fragment="bodyScript"></th:block>
 		<script type="text/javascript">
-			function logout() {
-				location.href="/logout?id=admin"
+			function logout(id) {
+				var params = {
+					'id' : id
+				};
+				
+				$.get('/logout', params, function(data) {
+					if (!data.success) {
+						alert(response.errorMessage);
+					} else {
+						location.href="/login";
+					}
+				});
 			}
 		</script>
 	</body>
