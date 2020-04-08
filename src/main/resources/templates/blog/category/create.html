@@ -7,7 +7,7 @@
 	<th:block layout:fragment="script">
 	</th:block>
 	<div layout:fragment="content">
-		<form id="blogPostForm">
+		<form id="blogCategoryForm">
 			<div class="container-fluid">
 				<h1 class="h3 mb-2 text-gray-800">블로그 포스트 관리</h1>
 				<p class="mb-4">
@@ -22,25 +22,15 @@
 						<div class="table-responsive">
 							<!-- 여기다가 제목, 내용(스마트에디터) 받을 것 -->
 							<dl>
-								<dt>카테고리</dt>
+								<dt>카테고리명</dt>
 								<dd>
-									<select id="blogPostCategorySeq" name="postCategory.blogPostCategorySeq">
-										<option th:each="category : ${postCategoryList}" th:value="${category.blogPostCategorySeq}" th:text="${category.name}"></option>
-									</select>
-								</dd>
-								<dt>제목</dt>
-								<dd>
-									<input type="text" id="subject" name="subject" />
-								</dd>
-								<dt>내용</dt>
-								<dd>
-									<textarea id="contents" name="contents"></textarea>
+									<input type="text" id="name" name="name" />
 								</dd>
 							</dl>
 						</div>
 					</div>
 					<div class="card-header py-3">
-						<a href="javascript:;" onclick="createBlogPost();" class="btn btn-success btn-icon-split float-right">
+						<a href="javascript:;" onclick="createCategory();" class="btn btn-success btn-icon-split float-right">
 							<span class="icon text-white-50">
 								<i class="fas fa-check"></i>
 							</span>
@@ -54,41 +44,25 @@
 	<th:block layout:fragment="bodyScript">
 		<script type="text/javascript">
 			$(function() {
-				pageInit();
 				
 			});
 			
-			function pageInit() {
-				CKEDITOR.replace("contents",{
-					 filebrowserUploadUrl: "/file/upload"
-				});
-			}
-			
-			function createBlogPost() {
-				var $subject = $('#subject');	//제목 값
-				var $contents = $('#contents'); //내용
-				var $ckeContents = $('#cke_contents'); // ckeditor 내용
+			function createCategory() {
+				var $name = $('#name');	//카테고리
 				
-				if (!$subject.val()) {
-					alert('제목을 입력해 주세요.');
-					$subject.focus();
+				if (!$name.val()) {
+					alert('카테고리명을 입력해 주세요.');
+					$name.focus();
 					return false;
 				}
-				if (CKEDITOR.instances.contents.getData().length < 1) {
-					alert('내용을 입력해 주세요.');
-					$contents.focus();
-					return false;
-				}
-				
-				$contents.html(CKEDITOR.instances.contents.getData());
-				
-				$.post('/blog/post/create/process', $('#blogPostForm').serialize(), function(data) {
+	
+				$.post('/blog/category/create/proc', $('#blogCategoryForm').serialize(), function(data) {
 					if (!data.success) {
 						alert(data.errorMessage);
 						return false;
 					} 
 					
-					location.href = '/blog/post/list';
+					location.href = '/blog/category/list';
 				});
 			}
 			

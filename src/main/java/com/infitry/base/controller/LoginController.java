@@ -2,15 +2,13 @@ package com.infitry.base.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
+import com.infitry.base.component.UserComponent;
 import com.infitry.base.entity.User;
 import com.infitry.base.result.TransResult;
 
@@ -23,12 +21,8 @@ import com.infitry.base.result.TransResult;
 @Controller
 public class LoginController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
-	RestTemplate userClient = new RestTemplate();
-	
-	@Value("${infitry.user.url}")
-	String userUrl;
+	@Autowired
+	UserComponent userComponent;
 	
 	/**
 	 * @since 2020. 3. 31.
@@ -49,20 +43,14 @@ public class LoginController {
 	@ResponseBody
 	public TransResult loginProc(User user, HttpSession session) {
 		TransResult result = new TransResult();
-		try {
-			logger.info("login proc user id : " + user.getId());
-			logger.info("admin session ID : " + session.getId());
+		result = userComponent.login(user);
 			
-			result = userClient.postForObject(userUrl + "/login", user, TransResult.class);
-			
-			/* 로그인 성공 시 현재 웹 WAS의 세션에 로그인 ID저장 */
-			//TODO api에서도 redis로 세션공유되도록 설정해야함.
-			if (result.isSuccess()) {
-				session.setAttribute("loginId", user.getId());
-			}
-		} catch (Exception e) {
-			logger.error("USER SERVICE NOT AVAILABLE...!!!");
+		/* 로그인 성공 시 현재 웹 WAS의 세션에 로그인 ID저장 */
+		//TODO api에서도 redis로 세션공유되도록 설정해야함.
+		if (result.isSuccess()) {
+			session.setAttribute("loginId", user.getId());
 		}
+		
 		return result;
 	}
 	
@@ -75,19 +63,11 @@ public class LoginController {
 	@ResponseBody
 	public TransResult logout(User user, HttpSession session) {
 		TransResult result = new TransResult();
-		try {
-			logger.info("logout user id : " + user.getId());
-			result = userClient.postForObject(userUrl + "/logout", user, TransResult.class);
-			
-			if (result.isSuccess()) {
-				session.removeAttribute("loginId");
-			}
-			
-		} catch (Exception e) {
-			logger.error("USER SERVICE NOT AVAILABLE...!!!");
-		}
-		logger.info(result.toString());
+		result = userComponent.logout(user);
 		
+		if (result.isSuccess()) {
+			session.removeAttribute("loginId");
+		}
 		return result;
 	}
 }

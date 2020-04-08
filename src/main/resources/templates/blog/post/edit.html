@@ -8,6 +8,7 @@
 	</th:block>
 	<div layout:fragment="content">
 		<form id="blogPostForm">
+			<input type="hidden" name="blogPostSeq" th:value="${blogPost.blogPostSeq}" />
 			<div class="container-fluid">
 				<h1 class="h3 mb-2 text-gray-800">블로그 포스트 관리</h1>
 				<p class="mb-4">
@@ -16,7 +17,7 @@
 				
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">작성하기</h6>
+						<h6 class="m-0 font-weight-bold text-primary">수정하기</h6>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -25,26 +26,29 @@
 								<dt>카테고리</dt>
 								<dd>
 									<select class="blog-category mt-2" id="blogPostCategorySeq" name="postCategory.blogPostCategorySeq">
-										<option th:each="category : ${postCategoryList}" th:value="${category.blogPostCategorySeq}" th:text="${category.name}"></option>
+										<option th:each="category : ${postCategoryList}" 
+											th:value="${category.blogPostCategorySeq}" 
+											th:text="${category.name}" th:selected="${category.blogPostCategorySeq == blogPost.postCategory.blogPostCategorySeq}">
+										</option>
 									</select>
 								</dd>
 								<dt>제목</dt>
 								<dd>
-									<input type="text" class="form-control mt-2" id="subject" name="subject" />
+									<input type="text" class="form-control mt-2" id="subject" name="subject" th:value="${blogPost.subject}"/>
 								</dd>
 								<dt>내용</dt>
 								<dd>
-									<textarea id="contents" name="contents"></textarea>
+									<textarea id="contents" name="contents" th:text="${blogPost.contents}"></textarea>
 								</dd>
 							</dl>
 						</div>
 					</div>
 					<div class="card-header py-3">
-						<a href="javascript:;" onclick="createBlogPost();" class="btn btn-success btn-icon-split float-right">
+						<a href="javascript:;" onclick="editBlogPost();" class="btn btn-success btn-icon-split float-right">
 							<span class="icon text-white-50">
 								<i class="fas fa-check"></i>
 							</span>
-							<span class="text">작성 완료</span>
+							<span class="text">수정 완료</span>
 						</a>
 					</div>
 				</div>
@@ -64,7 +68,7 @@
 				});
 			}
 			
-			function createBlogPost() {
+			function editBlogPost() {
 				var $subject = $('#subject');	//제목 값
 				var $contents = $('#contents'); //내용
 				var $ckeContents = $('#cke_contents'); // ckeditor 내용
@@ -82,7 +86,7 @@
 				
 				$contents.html(CKEDITOR.instances.contents.getData());
 				
-				$.post('/blog/post/create/proc', $('#blogPostForm').serialize(), function(data) {
+				$.post('/blog/post/edit/proc', $('#blogPostForm').serialize(), function(data) {
 					if (!data.success) {
 						alert(data.errorMessage);
 						return false;

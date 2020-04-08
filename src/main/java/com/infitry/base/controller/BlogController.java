@@ -1,19 +1,17 @@
 package com.infitry.base.controller;
 
-import java.util.Arrays;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
+import com.infitry.base.component.BlogComponent;
 import com.infitry.base.entity.BlogPost;
 import com.infitry.base.entity.PostCategory;
 import com.infitry.base.result.TransResult;
@@ -28,12 +26,8 @@ import com.infitry.base.result.TransResult;
 @RequestMapping("/blog")
 public class BlogController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(BlogController.class);
-	
-	RestTemplate blogClient = new RestTemplate();
-	
-	@Value("${infitry.blog.url}")
-	String blogUrl;
+	@Autowired
+	BlogComponent blogComponent;
 	
 	/**
 	 * @since 2020. 3. 31.
@@ -42,14 +36,39 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/post/list", method = RequestMethod.GET)
 	public String blogPostListPage(Model model) {
-		try {
-			BlogPost[] blogPostList = blogClient.getForObject(blogUrl + "/blog/post/list-all", BlogPost[].class);
-			model.addAttribute("blogPostList", Arrays.asList(blogPostList));
-		} catch (Exception e) {
-			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
-		}
-		
+		//post 전체목록
+		model.addAttribute("blogPostList", blogComponent.getPostListAll());
 		return "blog/post/list";
+	}
+	
+	/**
+	 * @since 2020. 4. 07.
+	 * @author leesw
+	 * @description : 블로그 포스트 수정 페이지 이동
+	 */
+	@RequestMapping(value = "/post/edit", method = RequestMethod.GET)
+	public String blogPostEditPage(long blogPostSeq, Model model) {
+		//카테고리 목록
+		model.addAttribute("postCategoryList", blogComponent.getCategoryList());
+		model.addAttribute("blogPost", blogComponent.getPostDetail(blogPostSeq));
+		
+		return "blog/post/edit";
+	}
+	
+	/**
+	 * @since 2020. 4. 07.
+	 * @author leesw
+	 * @description : 블로그 포스트 수정처리
+	 */
+	@RequestMapping(value = "/post/edit/proc", method = RequestMethod.POST)
+	@ResponseBody
+	public TransResult blogPostEditProc(BlogPost blogPost, HttpSession session) {
+		TransResult result = new TransResult();
+		blogPost.setRegUser((String) session.getAttribute("loginId"));
+		blogPost.setRegDate(new Date());
+		result = blogComponent.savePost(blogPost);
+		
+		return result;	
 	}
 	
 	/**
@@ -59,12 +78,9 @@ public class BlogController {
 	 */
 	@RequestMapping(value = "/post/create", method = RequestMethod.GET)
 	public String blogPostCreatePage(Model model) {
-		try {
-			PostCategory[] postCategoryList = blogClient.getForObject(blogUrl + "/blog/post/categories", PostCategory[].class);
-			model.addAttribute("postCategoryList", Arrays.asList(postCategoryList));
-		} catch (Exception e) {
-			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
-		}
+		
+		//카테고리 목록
+		model.addAttribute("postCategoryList", blogComponent.getCategoryList());
 		
 		return "blog/post/create";
 	}
@@ -74,35 +90,53 @@ public class BlogController {
 	 * @author leesw
 	 * @description : 블로그 포스트 저장처리
 	 */
-	@RequestMapping(value = "/post/create/process", method = RequestMethod.POST)
+	@RequestMapping(value = "/post/create/proc", method = RequestMethod.POST)
 	@ResponseBody
 	public TransResult blogPostCreateProc(BlogPost blogPost, HttpSession session) {
 		TransResult result = new TransResult();
 		blogPost.setRegUser((String) session.getAttribute("loginId"));
-		try {
-			result = blogClient.postForObject(blogUrl + "/blog/post/create", blogPost, TransResult.class);
-		} catch (Exception e) {
-			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
-			result.setSuccess(false);
-			result.setErrorMessage("API 서버가 응답하지 않습니다.");
-		}
+		blogPost.setRegDate(new Date());
+		//포스트 저장
+		result = blogComponent.savePost(blogPost);
+		
 		return result;
 	}
 	
 	/**
 	 * @since 2020. 3. 31.
 	 * @author leesw
-	 * @description : 블로그 포스트 목록 페이지 이동
+	 * @description : 포스트 카테고리 목록
 	 */
 	@RequestMapping(value = "/category/list", method = RequestMethod.GET)
 	public String blogCategoryListPage(Model model) {
-		try {
-			PostCategory[] categoryList = blogClient.getForObject(blogUrl + "/blog/category/list-all", PostCategory[].class);
-			model.addAttribute("categoryList", Arrays.asList(categoryList));
-		} catch (Exception e) {
-			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
-		}
-		
+		//카테고리 목록
+		model.addAttribute("categoryList", blogComponent.getCategoryList());
 		return "blog/category/list";
+	}
+	
+	/**
+	 * @since 2020. 4. 08.
+	 * @author leesw
+	 * @description : 포스트 카테고리 생성페이지
+	 */
+	@RequestMapping(value = "/category/create", method = RequestMethod.GET)
+	public String blogCategoryCreatePage(Model model) {
+		return "blog/category/create";
+	}
+	
+	/**
+	 * @since 2020. 4. 08.
+	 * @author leesw
+	 * @description : 포스트 카테고리 생성처리
+	 */
+	@RequestMapping(value = "/category/create/proc", method = RequestMethod.POST)
+	@ResponseBody
+	public TransResult blogCategoryCreateProc(PostCategory category, HttpSession session) {
+		TransResult result = new TransResult();
+		category.setRegUser((String) session.getAttribute("loginId"));
+		
+		result = blogComponent.saveCategory(category);
+		
+		return result;
 	}
 }

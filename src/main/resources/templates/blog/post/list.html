@@ -39,7 +39,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="blogPost : ${blogPostList}">
-									<td th:text="${blogPost.subject}"></td>
+									<td><a th:href="@{/blog/post/edit(blogPostSeq=${blogPost.blogPostSeq})}" th:text="${blogPost.subject}"></a></td>
 									<td><p class="ellipsis" th:text="${blogPost.contents}"></p></td>
 									<td th:text="${blogPost.postCategory?.name}"></td>
 									<td th:text="${blogPost.regUser}"></td>
