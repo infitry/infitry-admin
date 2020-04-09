@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +58,9 @@ public class FileController {
  
         // 업로드한 파일 이름
         UUID uuid = UUID.randomUUID();
-        String fileName = upload.getOriginalFilename() + "_" + uuid.toString();
+        String orgName = upload.getOriginalFilename();
+        //파일명 UUID + 확장자로 변경
+        String fileName =  uuid.toString() + orgName.substring(orgName.lastIndexOf(".") + 1, orgName.length());
         
         PrintWriter printWriter = null;
         OutputStream out = null;
