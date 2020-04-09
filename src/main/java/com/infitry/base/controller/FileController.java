@@ -60,7 +60,7 @@ public class FileController {
         UUID uuid = UUID.randomUUID();
         String orgName = upload.getOriginalFilename();
         //파일명 UUID + 확장자로 변경
-        String fileName =  uuid.toString() + orgName.substring(orgName.lastIndexOf(".") + 1, orgName.length());
+        String fileName =  uuid.toString() + "." + orgName.substring(orgName.lastIndexOf(".") + 1, orgName.length());
         
         PrintWriter printWriter = null;
         OutputStream out = null;
