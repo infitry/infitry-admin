@@ -22,7 +22,7 @@
 							<thead>
 								<tr>
 									<th>제목</th>
-									<th>내용</th>
+									<th>설명</th>
 									<th>카테고리</th>
 									<th>작성자</th>
 									<th>작성일</th>
@@ -31,7 +31,7 @@
 							<tfoot>
 								<tr>
 									<th>제목</th>
-									<th>내용</th>
+									<th>설명</th>
 									<th>카테고리</th>
 									<th>작성자</th>
 									<th>작성일</th>
@@ -40,7 +40,7 @@
 							<tbody>
 								<tr th:each="blogPost : ${blogPostList}">
 									<td><a th:href="@{/blog/post/edit(blogPostSeq=${blogPost.blogPostSeq})}" th:text="${blogPost.subject}"></a></td>
-									<td><p class="ellipsis" th:text="${blogPost.contents}"></p></td>
+									<td th:text="${blogPost.description}"></td>
 									<td th:text="${blogPost.postCategory?.name}"></td>
 									<td th:text="${blogPost.regUser}"></td>
 									<td th:text="${#dates.format(blogPost.regDate, 'yyyy. MM. dd')}"></td>

@@ -15,6 +15,7 @@ public class BlogPost {
 	private long blogPostSeq;
 	private PostCategory postCategory;
 	private String subject;
+	private String description;
 	private String contents;
 	private String regUser;
 	private Date regDate;

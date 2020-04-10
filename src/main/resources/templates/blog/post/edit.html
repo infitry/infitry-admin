@@ -36,6 +36,10 @@
 								<dd>
 									<input type="text" class="form-control mt-2" id="subject" name="subject" th:value="${blogPost.subject}"/>
 								</dd>
+								<dt>간단설명</dt>
+								<dd>
+									<input type="text" class="form-control mt-2" id="description" name="description" th:value="${blogPost.description}"/>
+								</dd>
 								<dt>내용</dt>
 								<dd>
 									<textarea id="contents" name="contents" th:text="${blogPost.contents}"></textarea>
