@@ -56,6 +56,7 @@ public class BlogComponent {
 			result = Arrays.asList(blogPostList);
 		} catch (Exception e) {
 			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
+			logger.error("[ERROR] - " + e.getMessage());
 		}
 		return result;
 	}

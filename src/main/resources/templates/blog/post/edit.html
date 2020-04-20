@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default-layout">
-	<th:block layout:fragment="css">
-	</th:block>
-	<th:block layout:fragment="script">
-	</th:block>
+	layout:decorate="~{layouts/default-layout}">
 	<div layout:fragment="content">
 		<form id="blogPostForm">
 			<input type="hidden" name="blogPostSeq" th:value="${blogPost.blogPostSeq}" />

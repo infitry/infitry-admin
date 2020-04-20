@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default-layout">
-	<th:block layout:fragment="css">
-	</th:block>
-	<th:block layout:fragment="script">
-	</th:block>
+	layout:decorate="~{layouts/default-layout}">
 	<div layout:fragment="content">
 		<div class="container-fluid">
 			<h1 class="h3 mb-2 text-gray-800">블로그 포스트 관리</h1>
@@ -41,7 +37,7 @@
 								<tr th:each="blogPost : ${blogPostList}">
 									<td><a th:href="@{/blog/post/edit(blogPostSeq=${blogPost.blogPostSeq})}" th:text="${blogPost.subject}"></a></td>
 									<td th:text="${blogPost.description}"></td>
-									<td th:text="${blogPost.postCategory?.name}"></td>
+									<td th:text="${blogPost.postCategory.name}"></td>
 									<td th:text="${blogPost.regUser}"></td>
 									<td th:text="${#dates.format(blogPost.regDate, 'yyyy. MM. dd')}"></td>
 								</tr>
