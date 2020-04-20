@@ -64,8 +64,13 @@ public class BlogController {
 	@ResponseBody
 	public TransResult blogPostEditProc(BlogPost blogPost, HttpSession session) {
 		TransResult result = new TransResult();
-		blogPost.setRegUser((String) session.getAttribute("loginId"));
-		blogPost.setRegDate(new Date());
+		//기존 정보를 불러온다.
+		BlogPost baseBlogPost = blogComponent.getPostDetail(blogPost.getBlogPostSeq());
+		blogPost.setRegUser(baseBlogPost.getRegUser());	//기존 정보 작성자
+		blogPost.setRegDate(baseBlogPost.getRegDate());	//기존 정보 작성일
+		
+		System.out.println(blogPost.toString());
+		
 		result = blogComponent.savePost(blogPost);
 		
 		return result;	

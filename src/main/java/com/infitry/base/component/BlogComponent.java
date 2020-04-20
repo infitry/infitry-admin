@@ -85,6 +85,7 @@ public class BlogComponent {
 		try {
 			result = blogClient.postForObject(blogUrl + "/blog/post/save", blogPost, TransResult.class);
 		} catch (Exception e) {
+			logger.error("[ERROR] - " + e.getMessage());
 			logger.error("BLOG SERVICE NOT AVAILABLE...!!!");
 			result.setSuccess(false);
 			result.setErrorMessage("API 서버가 응답하지 않습니다.");
